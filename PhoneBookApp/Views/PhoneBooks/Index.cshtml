@@ -1,0 +1,74 @@
+﻿@model IEnumerable<PhoneBookApp.Models.PhoneBook>
+
+@{
+    ViewBag.Title = "Phone Books";
+}
+
+
+<div style="padding-top: 2%">
+<h3 style="display:inline-block"> Phone Books</h3>
+
+
+
+    @*@Html.ActionLink("Create New", "Create")*@
+
+    <a href="@Url.Action("Create", "PhoneBooks")" class="btn btn-success" style="float:right" >
+        Add new Contact Book
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+    </a>
+</div>
+
+<table class="table table-dark table-striped table-hover ">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifiedAt)
+        </th>
+        <th></th>
+    </tr>
+        </thead>
+
+@foreach (var item in Model)
+{
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedAt)
+            </td>
+            <td>
+
+                <a href="@Url.Action("Details", "PhoneBooks", new { id = item.ID })" data-toggle="tooltip" title="view details" class="btn-link btn">
+                    <span class="glyphicon glyphicon-info-sign">
+                    </span>
+                </a>
+                <a href="@Url.Action("Edit", "PhoneBooks", new { id = item.ID} )" data-toggle="tooltip" title="Edit Contact" class="btn-link">
+                    <span class="glyphicon glyphicon-pencil">
+                    </span>
+                </a>
+
+                <a href="@Url.Action("Delete", "PhoneBooks", new { id = item.ID })" data-toggle="tooltip" title="Delete" class="btn-link btn">
+                    <span class="glyphicon glyphicon-trash">
+                    </span>
+                </a>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
+            </td>
+        </tr>
+    </tbody>
+
+}
+
+</table>

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<PhoneBookApp.Models.Contact>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="padding-top: 2%">
+    <h4 style="display:inline-block"> Contacts</h4>
+
+
+  
+
+        <a href="@Url.Action("Create", "Contacts")" class="btn btn-success" style="float:right">
+            Create New Contact
+            <span class="glyphicon glyphicon-plus-sign"></span>
+        </a>      
+
+</div>
+
+<div class="row">
+    @using (Html.BeginForm())
+    {
+      
+            <div class="input-group" style="text-align:center">
+                <span class="input-group-btn">
+                    @Html.TextBox("SearchString", null, new { @class = "form-control", @placeholder = "Search" })
+                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </span>
+                
+            </div>
+            @*<input type="text" class="form-control" placeholder="Search" name="search">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+            @Html.TextBox("SearchString", null, new { @class = "form-control", @placeholder = "Search" }) <br />
+            <input type="submit" value="Filter" />*@
+      
+    }
+    
+</div>
+    <table class="table table-dark table-striped">
+        <thead style="text-transform:uppercase">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneBook.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+            </thead>
+        @foreach (var item in Model)
+        {
+            <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneBook.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @*<a href="@Url.Action("Details", "Contacts", new { id = item.ID })"  data-toggle="tooltip" title="view details" class="btn-link btn">
+                        <span class="glyphicon glyphicon-info-sign">
+                        </span>
+                    </a>*@ 
+                    <a href="@Url.Action("Edit", "Contacts", new { id = item.ID} )" data-toggle="tooltip" title="Edit Contact" class="btn-link">
+                        <span class="glyphicon glyphicon-pencil">
+                        </span>
+                    </a> 
+                  
+                    <a href="@Url.Action("Delete", "Contacts", new { id = item.ID })" data-toggle="tooltip" title="Delete" class="btn-link btn" >
+                        <span class="glyphicon glyphicon-trash">
+                        </span>
+                    </a>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                </td>
+            </tr>
+                </tbody>
+        }
+
+    </table>

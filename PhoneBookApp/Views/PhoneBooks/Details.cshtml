@@ -1,0 +1,92 @@
+﻿@model PhoneBookApp.Models.PhoneBook
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div>
+    <h4>Phone Book Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedAt)
+        </dd>
+
+    </dl>
+</div>
+
+<div>
+    <h4>Contacts</h4>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+              
+                <th>
+                   Contact Name
+                </th>
+                <th>
+                   Phone Number
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.contacts)
+        {
+            <tbody>
+                <tr>                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", "Contacts", new { id = item.ID })" data-toggle="tooltip" title="view details" class="btn-link btn">
+                            <span class="glyphicon glyphicon-info-sign">
+                            </span>
+                        </a>
+                        <a href="@Url.Action("Edit", "Contacts", new { id = item.ID} )" data-toggle="tooltip" title="Edit Contact" class="btn-link">
+                            <span class="glyphicon glyphicon-pencil">
+                            </span>
+                        </a>
+
+                        <a href="@Url.Action("Delete", "Contacts", new { id = item.ID })" data-toggle="tooltip" title="Delete" class="btn-link btn">
+                            <span class="glyphicon glyphicon-trash">
+                            </span>
+                        </a>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+                    </td>
+                </tr>
+            </tbody>
+        }
+
+    </table>
+
+</div>
+<p>
+    @Html.ActionLink("Edit Phone Book", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
