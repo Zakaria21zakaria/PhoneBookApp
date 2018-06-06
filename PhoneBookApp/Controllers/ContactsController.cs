@@ -34,31 +34,31 @@ namespace PhoneBookApp.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                contacts = contacts.Where(x => x.Name.ToLower().Contains(searchString.ToLower()));
+                contacts = contacts.Where(x => x.Name.ToLower().Contains(searchString.ToLower())).OrderBy(x=>x.Name);
 
             }
-            return View(contacts.ToList());
+            return View(contacts.OrderBy(x=>x.Name).ToList());
         }
 
-        // GET: Contacts/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contact);
-        }
+        //// GET: Contacts/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Contact contact = db.Contacts.Find(id);
+        //    if (contact == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(contact);
+        //}
 
         // GET: Contacts/Create
         public ActionResult Create()
-        {
-            ViewBag.PhoneBookID = new SelectList(db.PhoneBook, "ID", "Name");
+        {            
+            ViewBag.PhoneBookID = getPhoneBookOption();
             return View();
         }
 
@@ -76,7 +76,7 @@ namespace PhoneBookApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PhoneBookID = new SelectList(db.PhoneBook, "ID", "Name", contact.PhoneBookID);
+            ViewBag.PhoneBookID = getPhoneBookOption();//new SelectList(db.PhoneBook, "ID", "Name", contact.PhoneBookID);
             return View(contact);
         }
 
@@ -92,7 +92,7 @@ namespace PhoneBookApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PhoneBookID = new SelectList(db.PhoneBook, "ID", "Name", contact.PhoneBookID);
+            ViewBag.PhoneBookID = getPhoneBookOption();
             return View(contact);
         }
 
@@ -109,7 +109,7 @@ namespace PhoneBookApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PhoneBookID = new SelectList(db.PhoneBook, "ID", "Name", contact.PhoneBookID);
+            ViewBag.PhoneBookID = getPhoneBookOption();
             return View(contact);
         }
 
@@ -137,6 +137,15 @@ namespace PhoneBookApp.Controllers
             db.Contacts.Remove(contact);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        private List<SelectListItem> getPhoneBookOption()
+        {
+            var phoneBookTip = new SelectListItem() { Text = "------Select PhoneBook-----", Value = null };
+            var PhonebookSelectOptions = new SelectList(db.PhoneBook, "ID", "Name").ToList();
+            PhonebookSelectOptions.Insert(0, phoneBookTip);
+            return PhonebookSelectOptions.ToList();
         }
 
         protected override void Dispose(bool disposing)
